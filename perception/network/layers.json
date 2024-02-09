@@ -1,0 +1,63 @@
+[
+    {
+      "name": "conv",
+      "n_in": 3,
+      "n_out": 10,
+      "kernel": 5,
+      "activation": "linear"
+    },
+    {
+      "name": "pool",
+      "mode": "max",
+      "kernel": 2,
+      "activation": "relu"
+    },
+    {
+      "name": "conv",
+      "n_in": 10,
+      "n_out": 10,
+      "kernel": 5,
+      "activation": "linear"
+    },
+    {
+      "name": "pool",
+      "mode": "max",
+      "kernel": 2,
+      "activation": "relu"
+    },
+    {
+      "name": "conv",
+      "n_in": 10,
+      "n_out": 5,
+      "kernel": 5,
+      "activation": "linear"
+    },
+    {
+      "name": "pool",
+      "mode": "max",
+      "kernel": 2,
+      "activation": "relu"
+    },
+    {
+      "name": "flatten"
+    },
+    {
+      "name": "fc",
+      "n_in": 845,
+      "n_out": 200,
+      "activation": "relu"
+    },
+    {
+      "name": "fc",
+      "n_in": 200,
+      "n_out": 50,
+      "activation": "relu"
+    },
+    {
+      "name": "fc",
+      "n_in": 50,
+      "n_out": 10,
+      "activation": "softmax"
+    }
+  ]
+  

@@ -1,0 +1,51 @@
+[
+  {
+    "name": "conv",
+    "n_in": 3,
+    "n_out": 32,
+    "kernel": 5,
+    "stride": 2,
+    "pad": 2,
+    "activation": "relu"
+  },
+  {
+    "name": "conv",
+    "n_in": 32,
+    "n_out": 64,
+    "kernel": 3,
+    "stride": 2,
+    "pad": 1,
+    "activation": "relu"
+  },
+  {
+    "name": "conv",
+    "n_in": 64,
+    "n_out": 64,
+    "kernel": 3,
+    "stride": 1,
+    "pad": 1,
+    "activation": "relu"
+  },
+  {
+    "name": "flatten"
+  },
+  {
+    "name": "fc",
+    "n_in": 76800,
+    "n_out": 256,
+    "activation": "relu"
+  },
+  {
+    "name": "fc",
+    "n_in": 256,
+    "n_out": 256,
+    "activation": "relu"
+  },
+  {
+    "name": "fc",
+    "n_in": 256,
+    "n_out": 128,
+    "activation": "relu"
+  }
+]
+  

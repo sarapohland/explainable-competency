@@ -1,0 +1,23 @@
+# Mac
+*/.DS_Store
+.DS_Store
+
+# editors
+.idea/
+.vscode/
+
+# Python
+*.egg-info/
+.pytest_cache/
+__pycache__
+.cache/
+venv*/
+
+# outputs
+data/
+models/
+results/
+
+# jupyter checkpoints
+.ipynb_checkpoints
+*.ipynb

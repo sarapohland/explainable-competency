@@ -1,0 +1,57 @@
+[
+  {
+    "name": "fc",
+    "n_in": 128,
+    "n_out": 256,
+    "activation": "relu"
+  },
+  {
+    "name": "fc",
+    "n_in": 256,
+    "n_out": 256,
+    "activation": "relu"
+  },
+  {
+    "name": "fc",
+    "n_in": 256,
+    "n_out": 76800,
+    "activation": "relu"
+  },
+  {
+    "name": "unflatten",
+    "channels": 64,
+    "height": 30,
+    "width": 40
+  },
+  {
+    "name": "transpose",
+    "n_in": 64,
+    "n_out": 64,
+    "kernel": 3,
+    "stride": 1,
+    "pad": 1,
+    "out_pad": 0,
+    "activation": "relu"
+  },
+  {
+    "name": "transpose",
+    "n_in": 64,
+    "n_out": 32,
+    "kernel": 3,
+    "stride": 2,
+    "pad": 1,
+    "out_pad": 1,
+    "activation": "relu"
+  },
+  {
+    "name": "transpose",
+    "n_in": 32,
+    "n_out": 3,
+    "kernel": 5,
+    "stride": 2,
+    "pad": 2,
+    "out_pad": 1,
+    "activation": "relu"
+  }
+]
+  
