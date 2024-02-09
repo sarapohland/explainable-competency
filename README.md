@@ -31,21 +31,21 @@ By default, datasets are assumed to be saved in the following structure:
 &emsp;&emsp;|-- images  
 &emsp;&emsp;&emsp;|-- ID  
 &emsp;&emsp;&emsp;&emsp;|-- class1  
-&emsp;&emsp;&emsp;&emsp;|-- class2
+&emsp;&emsp;&emsp;&emsp;|-- class2  
 &emsp;&emsp;&emsp;|-- OOD  
 &emsp;&emsp;&emsp;&emsp;|-- class1  
-&emsp;&emsp;&emsp;&emsp;|-- class2
+&emsp;&emsp;&emsp;&emsp;|-- class2  
 &emsp;&emsp;&emsp;|-- unsorted  
-&emsp;|-- dataset2
+&emsp;|-- dataset2  
 &emsp;&emsp;|-- dataset.p  
 &emsp;&emsp;|-- images   
 &emsp;&emsp;&emsp;|-- ID  
 &emsp;&emsp;&emsp;&emsp;|-- class1  
-&emsp;&emsp;&emsp;&emsp;|-- class2
+&emsp;&emsp;&emsp;&emsp;|-- class2  
 &emsp;&emsp;&emsp;|-- OOD  
 &emsp;&emsp;&emsp;&emsp;|-- class1  
-&emsp;&emsp;&emsp;&emsp;|-- class2
-&emsp;&emsp;&emsp;|-- unsorted 
+&emsp;&emsp;&emsp;&emsp;|-- class2  
+&emsp;&emsp;&emsp;|-- unsorted   
 
 The unsorted folder should contain in-distribution training images that have not been labeled, while the ID folder contains all labeled in-distribution images organized by their class labels. If you already have a labeled dataset, you can organize them in the ID folder and skip to step 1d. If you only have unlabeled data, you can place it all in the unsorted folder and proceed to step 1c. The OOD folder should contain all out-of-distribution images. If this data is labeled, it can be orgnized into its class labels. If it is unlabeled, you can place it all into the same subfolder within the OOD folder. A dataset that has already been set up (following step 1d) will be saved in a pickle file called dataset.p in the main dataset folder.
 
