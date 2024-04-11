@@ -127,7 +127,7 @@ You can evaluate your competency estimator using the test script in the competen
 python perception/competency/test.py --test_data lunar --model_dir models/lunar/classify/
 ```
 
-The argument test_data is used to indicate which dataset should be used to evaluate your classification model. Currently, only the emnist dataset is implemented, as well as a few custom datasets (lunar, speed, and pavilion). The argument model_dir is used to specify where your trained classification model and competency estimator were saved. This should be the same location defined as the model_dir in step 3a. This script will generate plots of various competency scores, which will be saved in a folder called results/<test_data>/competency. You can set the threshold for determining in-distribution vs. out-of-distribution data using the thresh parameter.
+The argument test_data is used to indicate which dataset should be used to evaluate your competency estimator. Currently, only the emnist dataset is implemented, as well as a few custom datasets (lunar, speed, and pavilion). The argument model_dir is used to specify where your trained classification model and competency estimator were saved. This should be the same location defined as the model_dir in step 3a. This script will generate a plot of the competency scores for correctly classified in-distribution data, misclassified in-distribution data, and OOD data, which will be saved in a folder called results/<test_data>/competency. 
 
 ## 4) Tune Segmentation Parameters
 
@@ -264,7 +264,7 @@ This command will save regional competency images for the reconstruction method 
 To visually compare each of the five approaches contributing to low model competency, you can use the visualize script in the evaluation folder:
 
 ```
-python perception/evaluation/visualize.py --test_data lunar --model_dir models/lunar/classify/ --autoencoder_dir models/lunar/inpaint/ --config_file perception/configs/lunar.config --output_dir results/lunar/figures/
+python perception/evaluation/visualize.py --test_data lunar --model_dir models/lunar/classify/ --autoencoder_dir models/lunar/inpaint/ --config_file perception/configs/lunar.config --output_dir results/lunar/comp_map/figures/
 ```
 
 This will save figures comparing the various approaches in the folder specified by output_dir. Note that you can optionally use the threshold argument so that pixels below the thresholds specified in the config file will be set to zero and pixels above will be set to one.
@@ -274,10 +274,10 @@ This will save figures comparing the various approaches in the folder specified 
 You can compare the computation times for each of the five approaches using the computation script in the evaluation folder:
 
 ```
-python perception/evaluation/computation.py --test_data lunar --model_dir models/lunar/classify/ --autoencoder_dir models/lunar/inpaint/ --config_file perception/configs/lunar.config
+python perception/evaluation/computation.py --test_data lunar --model_dir models/lunar/classify/ --autoencoder_dir models/lunar/inpaint/ --config_file perception/configs/lunar.config --output_dir results/lunar/comp_map/
 ```
 
-This will save a boxplot comparing the computation times of the approaches to a figure called times.png to the folder results/<test_data>. It will also print the average computation time for each method.
+This will save a boxplot comparing the computation times of the approaches in a figure called times.png to the folder specified by output_dir. It will also print the average computation time for each method.
 
 ### 7c. Generate true labels of segemented regions
 
@@ -295,10 +295,10 @@ Each image in the test set will be segmented, and you will be shown each segment
 You can compare the unfamiliarity prediction accuracy for each of the five approaches using the accuracy script in the evaluation folder:
 
 ```
-python perception/evaluation/accuracy.py --test_data lunar --model_dir models/lunar/classify/ --autoencoder_dir models/lunar/inpaint/ --config_file perception/configs/lunar.config
+python perception/evaluation/accuracy.py --test_data lunar --model_dir models/lunar/classify/ --autoencoder_dir models/lunar/inpaint/ --config_file perception/configs/lunar.config --output_dir results/lunar/comp_map/
 ```
 
-This script will print various measures of accuracy (overall, TPR, TNR, PPV, and NPV) for each of the five approaches. It will also generate a boxplot comparing the overall accuracy of the five approaches, which will be saved to a figure called accuracy.png to the folder results/<test_data>. You can optionally use the debug flag to visualize the true unfamiliarity labels, along with the predicted labels for each of the five approaches. 
+This script will print various measures of accuracy (overall, TPR, TNR, PPV, and NPV) for each of the five approaches. It will also generate a boxplot comparing the overall accuracy of the five approaches, which will be saved in a figure called accuracy.png to the folder specified by output_dir. You can optionally use the debug flag to visualize the true unfamiliarity labels, along with the predicted labels for each of the five approaches. 
 
 ### 7e. Evaluate the accuracy of ensembling
 
@@ -308,4 +308,36 @@ You can compare the unfamiliarity prediction accuracy for ensembles of the main 
 python perception/evaluation/ensembling.py --test_data lunar --model_dir models/lunar/classify/ --autoencoder_dir models/lunar/inpaint/ --config_file perception/configs/lunar.config --thresh 0.9
 ```
 
-This script will print various measures of accuracy and generate a boxplot comparing the overall accuracy of the ensembles, which will be saved to a figure called ensemble.png to the folder results/<test_data>. You can optionally use the debug flag to visualize the true unfamiliarity labels, along with the predicted labels for each of the ensembles. You can also change the threshold used on the z-score to determine whether a segment is familiar or unfamiliar to the perception model. 
+This script will print various measures of accuracy and generate a boxplot comparing the overall accuracy of the ensembles, which will be saved in a figure called ensemble.png to the folder results/<test_data>. You can optionally use the debug flag to visualize the true unfamiliarity labels, along with the predicted labels for each of the ensembles. You can also change the threshold used on the z-score to determine whether a segment is familiar or unfamiliar to the perception model. 
+
+## 8) Analyze Class Activation Mapping Approaches
+
+### 8a. Visually compare different approaches
+
+To visually compare ten approaches for developing class activation maps (CAMs), you can use the visualize script in the cams folder:
+
+```
+python perception/cams/visualize.py --test_data lunar --model_dir models/lunar/classify/ --output_dir results/lunar/cams/figures/
+```
+
+This will save figures comparing the various approaches in the folder specified by output_dir. 
+
+### 8b. Compare the computation times of approaches
+
+You can compare the computation times for the ten CAM approaches using the computation script in the cams folder:
+
+```
+python perception/cams/computation.py --test_data lunar --model_dir models/lunar/classify/ --output_dir results/lunar/cams/
+```
+
+This will save a boxplot comparing the computation times of the approaches in a figure called times.png to the folder specified by output_dir. It will also print the average computation time for each method.
+
+### 8c. Compare the accuracy of approaches
+
+You can compare the unfamiliarity prediction accuracy for the ten CAM approaches using the accuracy script in the cams folder:
+
+```
+python perception/cams/accuracy.py --test_data lunar --model_dir models/lunar/classify/ --config_file perception/configs/lunar.config --output_dir results/lunar/cams/
+```
+
+This script will print various measures of accuracy (overall, TPR, TNR, PPV, and NPV) for each of the  approaches. It will also generate a boxplot comparing the overall accuracy of the approaches, which will be saved in a figure called accuracy.png to the folder specified by output_dir. You can optionally use the scale argument (with the keyword zscore or normalize) if you would like to scale the values of the CAMs and the threshold argument to choose the threshold on classifying a pixel as familiar vs. unfamiliar. 

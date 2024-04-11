@@ -9,8 +9,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from scipy import stats
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import confusion_matrix
 
 from perception.network.model import NeuralNet
 from perception.inpainting.autoencoder import AutoEncoder
@@ -53,13 +52,13 @@ def main():
     parser.add_argument('--model_dir', type=str, default=None)
     parser.add_argument('--autoencoder_dir', type=str, default=None)
     parser.add_argument('--config_file', type=str, default=None)
+    parser.add_argument('--output_dir', type=str, default='results/comp_map/')
     parser.add_argument('--debug', action='store_true')
     args = parser.parse_args()
 
     # Create folder to save results
-    output_dir = 'results/{}/'.format(args.test_data)
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    if not os.path.exists(args.output_dir):
+        os.makedirs(args.output_dir)
 
     # Load trained classification model
     with open(args.model_dir + 'layers.json') as file:
@@ -239,7 +238,7 @@ def main():
     bp = df.boxplot(vert=False, column=methods)
     plt.title('Accuracy of Unfamilarity Predictions')
     plt.xlabel('Method Accuracy')
-    plt.savefig(os.path.join(output_dir, 'accuracy.png'), bbox_inches='tight')
+    plt.savefig(os.path.join(args.output_dir, 'accuracy.png'), bbox_inches='tight')
 
     # Print average accuracies
     for method in methods:

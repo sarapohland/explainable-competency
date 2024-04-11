@@ -15,28 +15,22 @@ from perception.datasets.setup_dataloader import setup_loader, get_num_classes
 
 torch.manual_seed(0)
 
-def check_accuracy(pred, label):
-    correct = (pred == label)
-    return torch.sum(correct) / len(correct)
-
-def plot_scores(id_data, ood_data, accuracy, score='alice', dataset='emnist'):
+def plot_scores(correct_data, incorrect_data, ood_data, dataset='emnist'):
     plt.figure()
-    plt.boxplot([id_data, ood_data])
-    plt.xticks(np.arange(2)+1, ['ID', 'OOD'])
-    plt.xlabel('dataset')
-    plt.ylabel('{} score'.format(score))
-    plt.title('{} scores of {} data: {}'.format(score, dataset, np.round(accuracy,2)))
+    plt.boxplot([correct_data, incorrect_data, ood_data])
+    plt.xticks(np.arange(3)+1, ['ID-Correct', 'ID-Incorrect', 'OOD'])
+    plt.ylabel('Competency Score')
+    plt.title('Competency Scores of {} Data'.format(dataset.capitalize()))
     if not os.path.exists('results/{}/competency/'.format(dataset)):
         os.makedirs('results/{}/competency/'.format(dataset))
     # plt.show()
-    plt.savefig('results/{}/competency/{}.png'.format(dataset, score))
+    plt.savefig('results/{}/competency/scores.png'.format(dataset))
     plt.close()
 
 def main():
     parser = argparse.ArgumentParser('Parse configuration file')
     parser.add_argument('--test_data', type=str, default='data/')
     parser.add_argument('--model_dir', type=str, default='model/classify/')
-    parser.add_argument('--thresh', type=float, default=None)
     parser.add_argument('--debug', action='store_true')
     args = parser.parse_args()
 
@@ -83,20 +77,20 @@ def main():
     all_labels = torch.hstack(all_labels)
     all_scores = torch.hstack(all_scores)
 
-    # Check accuracy of competency decision
-    if args.thresh is not None:
-        estimator.set_threshold(args.thresh)
-        pickle.dump(estimator, open(file, 'wb'))
-    true = (all_labels < N)
-    pred = estimator.comp_dec(all_scores, all_preds)
-    acc  = check_accuracy(pred, true)
-
     # Separate in- and out-of-distribution data
-    id_scores = all_scores[true]
-    ood_scores = all_scores[[not x for x in true]]
+    id_idx = (all_labels < N)
+    id_preds = all_preds[id_idx]
+    id_labels = all_labels[id_idx]
+    id_scores = all_scores[id_idx]
+    ood_scores = all_scores[[not x for x in id_idx]]
+
+    # Separate correctly classified and misclassified ID data
+    correct_idx = (id_preds == id_labels)
+    correct_scores = id_scores[correct_idx]
+    incorrect_scores = id_scores[[not x for x in correct_idx]]
 
     # Plot scores
-    plot_scores(id_scores, ood_scores, acc, dataset=args.test_data)
+    plot_scores(correct_scores, incorrect_scores, ood_scores, dataset=args.test_data)
 
 if __name__ == "__main__":
     main()

@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 
 torch.manual_seed(2)
-torch.use_deterministic_algorithms(True)
+torch.use_deterministic_algorithms(True, warn_only=True)
 
 def seed_worker(worker_id):
     worker_seed = torch.initial_seed() % 2**32

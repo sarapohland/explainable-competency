@@ -7,7 +7,7 @@ import torch.nn as nn
 from perception.network.model import NeuralNet
 
 torch.manual_seed(2)
-torch.use_deterministic_algorithms(True)
+torch.use_deterministic_algorithms(True, warn_only=True)
 
 def seed_worker(worker_id):
     worker_seed = torch.initial_seed() % 2**32

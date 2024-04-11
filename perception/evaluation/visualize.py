@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 from perception.network.model import NeuralNet
 from perception.inpainting.autoencoder import AutoEncoder
-from perception.datasets.setup_dataloader import setup_loader
+from perception.datasets.setup_dataloader import setup_loader, get_num_classes
 
 from perception.regions.cropping import Cropping
 from perception.regions.masking import Masking
@@ -23,13 +23,20 @@ def main():
     parser.add_argument('--model_dir', type=str, default=None)
     parser.add_argument('--autoencoder_dir', type=str, default=None)
     parser.add_argument('--config_file', type=str, default=None)
-    parser.add_argument('--output_dir', type=str, default='results/compare/')
+    parser.add_argument('--output_dir', type=str, default='results/comp_map/figures/')
     parser.add_argument('--threshold', action='store_true')
     args = parser.parse_args()
 
     # Create folder to save results
-    if not os.path.exists(args.output_dir):
-        os.makedirs(args.output_dir)
+    correct_dir = os.path.join(args.output_dir, 'correct')
+    incorrect_dir = os.path.join(args.output_dir, 'incorrect')
+    ood_dir = os.path.join(args.output_dir, 'ood')
+    if not os.path.exists(correct_dir):
+        os.makedirs(correct_dir)
+    if not os.path.exists(incorrect_dir):
+        os.makedirs(incorrect_dir)
+    if not os.path.exists(ood_dir):
+        os.makedirs(ood_dir)
 
     # Load trained classification model
     with open(args.model_dir + 'layers.json') as file:
@@ -47,7 +54,8 @@ def main():
     constructor.load_state_dict(torch.load(os.path.join(args.autoencoder_dir, 'model.pth')))
 
     # Create data loader
-    test_loader = setup_loader(args.test_data, batch_size=1, ood=True)
+    N = get_num_classes(args.test_data)
+    test_loader = setup_loader(args.test_data, batch_size=1, test=True, ood=True)
 
     # Instantiate all of the regional competency approaches
     cropping  = Cropping(args.config_file, model, alice)
@@ -56,7 +64,18 @@ def main():
     gradients = Gradients(args.config_file, model, alice)
     reconstr  = Reconstruction(args.config_file, model, alice, constructor)
 
+    # Set visualization parameters
+    if args.threshold:
+        vmin, vmax = 0, 1
+    else:
+        vmin, vmax = -3, 3
+
     for batch, (data, labels) in enumerate(test_loader):
+        if labels < N:
+            # Get predictions of trained model
+            outputs  = model(data)
+            _, preds = torch.max(outputs, 1)
+
         # Compute competency prediction
         gradients.comp = None
         gradients.gradients = []
@@ -91,31 +110,31 @@ def main():
         plt.subplot(2, 3, 1)
         data = np.swapaxes(np.swapaxes(data, 1, 2), 2, 3)
         im = plt.imshow(data[0,:,:,:])
-        plt.title('Input Image')
+        plt.title('Input Image (Competency: {})'.format(round(comp.item(), 3)))
         plt.axis('off')
 
         plt.subplot(2, 3, 2)
-        im = plt.imshow(crop_regions, cmap='coolwarm')
+        im = plt.imshow(crop_regions, cmap='coolwarm', vmin=vmin, vmax=vmax)
         plt.title('Cropping Approach')
         plt.axis('off')
 
         plt.subplot(2, 3, 3)
-        im = plt.imshow(mask_regions, cmap='coolwarm')
+        im = plt.imshow(mask_regions, cmap='coolwarm', vmin=vmin, vmax=vmax)
         plt.title('Segmentation Approach')
         plt.axis('off')
 
         plt.subplot(2, 3, 4)
-        im = plt.imshow(pert_regions, cmap='coolwarm')
+        im = plt.imshow(pert_regions, cmap='coolwarm', vmin=vmin, vmax=vmax)
         plt.title('Perturbation Approach')
         plt.axis('off')
 
         plt.subplot(2, 3, 5)
-        im = plt.imshow(grad_regions, cmap='coolwarm')
+        im = plt.imshow(grad_regions, cmap='coolwarm', vmin=vmin, vmax=vmax)
         plt.title('Gradients Approach')
         plt.axis('off')
 
         plt.subplot(2, 3, 6)
-        im = plt.imshow(reco_regions, cmap='coolwarm')
+        im = plt.imshow(reco_regions, cmap='coolwarm', vmin=vmin, vmax=vmax)
         plt.title('Reconstruction Approach')
         plt.axis('off')
 
@@ -125,7 +144,13 @@ def main():
         # plt.colorbar(im, cax=cbar_ax)
         # plt.suptitle('Competency Score: {}'.format(round(comp.item(), 3)), size='x-large')
         plt.suptitle('Dependence of Incompetency on Pixel Values')
-        plt.savefig(os.path.join(args.output_dir, '{}.png'.format(batch)))
+        
+        if labels >= N:
+            plt.savefig(os.path.join(ood_dir, '{}.png'.format(batch)))
+        elif labels == preds:
+            plt.savefig(os.path.join(correct_dir, '{}.png'.format(batch)))
+        else:
+            plt.savefig(os.path.join(incorrect_dir, '{}.png'.format(batch)))
         plt.close()
 
 if __name__=="__main__":

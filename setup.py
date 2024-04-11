@@ -1,10 +1,12 @@
 from setuptools import setup, find_packages
 
-requirements = ['numpy',
+requirements = ['captum',
+                'numpy',
                 'matplotlib',
                 'opencv-python',
                 'pandas',
                 'Pillow',
+                'pytorch_grad_cam',
                 'scikit-image',
                 'scikit-learn',
                 'scipy',
