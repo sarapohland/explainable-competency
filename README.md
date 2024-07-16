@@ -1,5 +1,7 @@
 # Understanding Model Competency
 
+This is the codebase for the paper titled "Understanding the Dependence of Perception Model Competency on Regions in an Image," which is available through [Springer](https://link.springer.com/chapter/10.1007/978-3-031-63797-1_8) and on [arXiv](https://arxiv.org/abs/2407.10543). This README describes how to reproduce the results achieved in this paper. If you find this work useful, please cite our paper (citation provided at end of page).
+
 ## 0) Set Up Codebase
 
 ### 0a. Clone this repo
@@ -341,3 +343,22 @@ python perception/cams/accuracy.py --test_data lunar --model_dir models/lunar/cl
 ```
 
 This script will print various measures of accuracy (overall, TPR, TNR, PPV, and NPV) for each of the  approaches. It will also generate a boxplot comparing the overall accuracy of the approaches, which will be saved in a figure called accuracy.png to the folder specified by output_dir. You can optionally use the scale argument (with the keyword zscore or normalize) if you would like to scale the values of the CAMs and the threshold argument to choose the threshold on classifying a pixel as familiar vs. unfamiliar. 
+
+## Citing Our Work
+
+If you find this codebase useful, please cite the paper associated with this repository:
+
+Pohland, S., Tomlin, C. (2024). Understanding the Dependence of Perception Model Competency on Regions in an Image. In: Longo, L., Lapuschkin, S., Seifert, C. (eds) Explainable Artificial Intelligence. xAI 2024. Communications in Computer and Information Science, vol 2154. Springer, Cham. https://doi.org/10.1007/978-3-031-63797-1_8
+
+@InProceedings{explainable-competency, \
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; author="Pohland, Sara and Tomlin, Claire", \
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; editor="Longo, Luca and Lapuschkin, Sebastian and Seifert, Christin", \
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; title="Understanding the Dependence of Perception Model Competency on Regions in an Image", \
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; booktitle="Explainable Artificial Intelligence (xAI)", \
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; year="2024", \
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; month="July", \
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; publisher="Springer", \
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; pages="130--154", \
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; isbn="978-3-031-63797-1", \
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; doi="https://doi.org/10.1007/978-3-031-63797-1_8" \
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;       }
