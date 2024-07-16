@@ -351,14 +351,14 @@ If you find this codebase useful, please cite the paper associated with this rep
 Pohland, S., Tomlin, C. (2024). Understanding the Dependence of Perception Model Competency on Regions in an Image. In: Longo, L., Lapuschkin, S., Seifert, C. (eds) Explainable Artificial Intelligence. xAI 2024. Communications in Computer and Information Science, vol 2154. Springer, Cham. https://doi.org/10.1007/978-3-031-63797-1_8
 
 @InProceedings{explainable-competency, \
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; author="Pohland, Sara and Tomlin, Claire", \
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; editor="Longo, Luca and Lapuschkin, Sebastian and Seifert, Christin", \
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; title="Understanding the Dependence of Perception Model Competency on Regions in an Image", \
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; booktitle="Explainable Artificial Intelligence (xAI)", \
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; year="2024", \
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; month="July", \
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; publisher="Springer", \
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; pages="130--154", \
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; isbn="978-3-031-63797-1", \
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; doi="https://doi.org/10.1007/978-3-031-63797-1_8" \
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;       }
+&emsp; author="Pohland, Sara and Tomlin, Claire", \
+&emsp; editor="Longo, Luca and Lapuschkin, Sebastian and Seifert, Christin", \
+&emsp; title="Understanding the Dependence of Perception Model Competency on Regions in an Image", \
+&emsp; booktitle="Explainable Artificial Intelligence (xAI)", \
+&emsp; year="2024", \
+&emsp; month="July", \
+&emsp; publisher="Springer", \
+&emsp; pages="130--154", \
+&emsp; isbn="978-3-031-63797-1", \
+&emsp; doi="https://doi.org/10.1007/978-3-031-63797-1_8" \
+&emsp; }
