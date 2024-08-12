@@ -1,6 +1,6 @@
 # Understanding Model Competency
 
-This is the codebase for the paper titled "Understanding the Dependence of Perception Model Competency on Regions in an Image," which is available through [Springer](https://link.springer.com/chapter/10.1007/978-3-031-63797-1_8) and on [arXiv](https://arxiv.org/abs/2407.10543). This README describes how to reproduce the results achieved in this paper. If you find this work useful, please cite our paper (citation provided at end of page).
+This is the codebase for the paper titled ["Understanding the Dependence of Perception Model Competency on Regions in an Image,"](https://link.springer.com/chapter/10.1007/978-3-031-63797-1_8) which was presented at the 2nd World Conference on eXplainable Artificial Intelligence (xAI) and is also available on [arXiv](https://arxiv.org/abs/2407.10543). This README describes how to reproduce the results achieved in this paper. If you find this work useful, please cite our paper using the citation provided at the end of this [README](https://github.com/sarapohland/explainable-competency#citing-our-work).
 
 ## 0) Set Up Codebase
 
